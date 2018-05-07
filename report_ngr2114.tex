@@ -281,7 +281,7 @@ Table \ref{tab:poisson-operators} shows how each of the mathematical operators i
       \hline
       \textbf{Mathematics} & \textbf{MATLAB\textsuperscript{\textregistered}} \\ \hline
       $\vec{X}$ & \texttt{X(:)} \\ \hline
-      $(\vec{X})^\circ$ & \texttt{reshape(X(1:end,1:end), [], 1)} \\ \hline
+      $(\vec{X})^\circ$ & \texttt{reshape(X(2:end-1,2:end-1), [], 1)} \\ \hline
       $\|\vec{Y}\|_2$ & \texttt{norm(Y)} \\ \hline
    \end{tabular}
   \end{center}
@@ -310,6 +310,24 @@ The computed solution satisfies the boundary conditions and matches the analytic
 \end{equation}
 as can be verified visually.
 
+Solving the heat equation using CVX follows a similar procedure, except that we must work with 3-dimensional arrays rather than 2-dimensional ones, and additionally specify the initial condition as a constraint. Table \ref{tab:heat-operators} shows how the necessary operations can be performed in MATLAB\textsuperscript{\textregistered}. In the table below, \texttt{U} is an $(m+2) \times (n+2) \times (p+1)$ MATLAB\textsuperscript{\textregistered} array corresponding to the discretized solution $U$, and $V$ and $W$ are $(m+2)(n+2) \times p$ and $mn \times p$ matrices, respectively, with \texttt{V} and \texttt{W} as their MATLAB\textsuperscript{\textregistered} counterparts.
+\begin{table}[h]
+  \renewcommand*{\arraystretch}{1.5}
+  \begin{center}
+    \caption{Implementation of operators in MATLAB\textsuperscript{\textregistered} with CVX for heat equation}
+    \label{tab:heat-operators}
+    \begin{tabular}{|c|c|}
+      \hline
+      \textbf{Mathematics} & \textbf{MATLAB\textsuperscript{\textregistered}} \\ \hline
+      $\widetilde{U}_+$ & \texttt{reshape(U(:,:,2:end), [], p)} \\ \hline
+      $\widetilde{U}_-$ & \texttt{reshape(U(:,:,1:end-1), [], p)} \\ \hline
+      & \texttt{tmp = reshape(V, m+2, n+2, p);} \\
+      $V^\circ$ & \texttt{reshape(tmp(2:end-1,2:end-1,:), [], p)} \\ \hline
+      $\|W\|_F$ & \texttt{norm(W(:))} \\ \hline
+   \end{tabular}
+  \end{center}
+\end{table}
+
 
 \cite{dummy}
 
@@ -324,6 +342,11 @@ Note how problem is still convex
 
 
 \section{Conclusion}
+
+
+\section*{Notes}
+
+\todo[inline]{Upload code to GitHub and link here}
 
 
 %%%%%%
