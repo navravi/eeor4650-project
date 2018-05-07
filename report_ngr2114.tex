@@ -351,7 +351,27 @@ which was the solution to Poisson's equation from before on the same spatial dom
 As expected, the initial heat distribution diffuses away while maintaining the boundary conditions \todo{Cite}.
 
 
-\section{Simulations}
+\section{Analysis}
+
+We now examine how the computational time required for CVX to solve the PDEs scales as the mesh is made finer. First, we increasingly refine the spatial grid by a factor of 2 in each dimension and observe the effect on the time required to solve Poisson's equation using CVX. Figure \ref{fig:poisson-scale} 
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{poisson-scale}
+    \caption{Scaling of computation time with respect to spatial refinement}
+    \label{fig:poisson-scale}
+  \end{center}
+\end{figure}
+indicates that the computation time grows faster than linearly but slower than quadratically with the number of grid points. The finest mesh consisted of 1,024,000 grid points and took 322.97 seconds to solve with an Intel\textsuperscript{\textregistered} Core\texttrademark{} i7-6820HQ processor at 2.70 GHz and 32 GB RAM.
+
+Next, we consider how the time required to solve the heat equation changes as we increase the number of time steps while keeping the initial and final times fixed. Figure \ref{fig:heat-scale}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{heat-scale}
+    \caption{Scaling of computation time with respect to temporal refinement}
+    \label{fig:heat-scale}
+  \end{center}
+\end{figure}
+shows that the computation time grows quadratically with the number of grid points. For the finest mesh, we used 256,000 grid points, which required 509.70 seconds to solve.
 
 
 \section{Conclusion}
