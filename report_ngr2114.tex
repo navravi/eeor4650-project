@@ -34,7 +34,7 @@
 
 \usepackage[color=green!40,textsize=scriptsize]{todonotes}
 \usepackage{amssymb}
-\usepackage[colorlinks=true,allcolors=blue!80!green]{hyperref}
+\usepackage[colorlinks=true,allcolors=blue!90!green!90!red]{hyperref}
 \usepackage{mathtools}
 \mathtoolsset{showonlyrefs}
 
@@ -116,7 +116,7 @@
 %% to remove this comment!
 %%
 \begin{abstract}
-  We present a method for solving partial differential equations (PDEs) using standard convex optimization tools, such as CVX \todo{Cite}. The proposed method provides a declarative syntax for specifying the PDE, thereby greatly simplifying the handling of boundary conditions. As a result, researchers implementing numerical methods not supported by existing solvers can quickly explore the effectiveness of a large number of numerical schemes on their problem before investing the time to implement the schemes using more traditional approaches, which may be required for computational efficiency reasons after increasing the resolution of the simulation. In addition to demonstrating how PDEs can be expressed as convex optimization problems, we explore the scalability limits of convex solvers in the context of PDEs.
+  We present a method for solving partial differential equations (PDEs) using standard convex optimization tools, such as CVX \cite{cvx,gb08}. The proposed method provides a declarative syntax for specifying the PDE, thereby greatly simplifying the handling of boundary conditions. As a result, researchers implementing numerical methods not supported by existing solvers can quickly explore the effectiveness of a large number of numerical schemes on their problem before investing the time to implement the schemes using more traditional approaches, which may be required for computational efficiency reasons after increasing the resolution of the simulation. In addition to demonstrating how PDEs can be expressed as convex optimization problems, we explore the scalability limits of convex solvers in the context of PDEs.
 \end{abstract}
 
 
@@ -388,7 +388,7 @@ Finally, having a declarative syntax to specify a numerical method for solving P
 
 The MATLAB\textsuperscript{\textregistered} code used to solve Poisson's equation and the heat equation, along with the code to generate the figures in this paper, is available at \url{https://github.com/navravi/eeor4650-project}.
 
-\todo[inline]{Upload code to GitHub} \cite{dummy}
+\todo[inline]{Upload code to GitHub}
 
 
 %%%%%%
