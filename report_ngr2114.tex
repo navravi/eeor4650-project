@@ -376,16 +376,16 @@ shows that the computation time grows quadratically with the number of grid poin
 
 \section{Conclusion}
 
+Expressing a PDE as a convex optimization problem is an effective way to test how a numerical method performs on the PDE without having to explicitly implement the intricacies of the numerical scheme. We've seen how convex optimization provides a powerful declarative syntax to specify a discretization of a PDE along with its boundary and initial conditions without having to use techniques such as ghost cells or source term modification to embed boundary conditions into the discretization. In some cases, we can even additionally simplify the problem, for example, by conveniently filling in missing entries in the discrete Laplacian.
+
+Furthermore, we observed experimentally that the time required to solve PDEs using CVX only grows quadratically with the number of grid points, enabling convergence studies to be performed as the mesh is refined for moderately sized problems. For larger problems, expressing a PDE as a convex optimization problem provides the potential to leverage existing distributed convex solvers without having to write custom distributed PDE solvers, as they can be error-prone and time-consuming to implement.
+
+Finally, having a declarative syntax to specify a numerical method for solving PDEs reduces the chance of introducing bugs in the solver and provides a reference implementation for comparison if a more efficient custom solver is later written.
+
 
 \section*{Notes}
 
-\todo[inline]{Upload code to GitHub and link here}
-
-Smaller chance of bugs with declarative approach - provides reference implementation for comparison
-
-Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
-
-Note how problem is still convex \cite{dummy}
+\todo[inline]{Upload code to GitHub and link here} \cite{dummy}
 
 
 %%%%%%
