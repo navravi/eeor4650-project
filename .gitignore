@@ -1,3 +1,4 @@
 *.swp
 report_ngr2114.*
 !report_ngr2114.tex
+!report_ngr2114.pdf

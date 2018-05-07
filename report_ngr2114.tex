@@ -122,11 +122,11 @@
 
 \section{Introduction}
 
-When modeling complicated physical phenomena such as atmospheric processes or tropical storms, the problem is often defined as a system of PDEs which need to be solved numerically. Unfortunately, standard off-the-shelf solvers for PDEs are usually inadequate for solving such problems. It is common for researchers to develop their own numerical PDE solvers which exploit special structure unique to their problem \todo{Cite}.
+When modeling complicated physical phenomena such as atmospheric processes or tropical storms, the problem is often defined as a system of PDEs which need to be solved numerically. Unfortunately, standard off-the-shelf solvers for PDEs are usually inadequate for solving such problems. It is common for researchers to develop their own numerical PDE solvers which exploit special structure unique to their problem \cite{berger1984amr,berger2011geoclaw,mandli2014ss,mandli2016clawpack}.
 
-When developing a new PDE solver, there are several important aspects which need to be considered. First is the consistency of the numerical method, which is usually determined analytically. Next is the stability and convergence of the method. While theoretical guarantees can be given for many numerical methods regarding rates of convergence, the rates can sometimes be misleading in practice due to the sizes of constants on leading error terms, which can be problem dependent \todo{Cite}. Fortunately, the rate at which the accuracy of a simulation improves as the resolution of the simulation is increased can be observed for a specific problem experimentally. However, in order to do so, the numerical method first needs to be correctly implemented.
+When developing a new PDE solver, there are several important aspects which need to be considered. First is the consistency of the numerical method, which is usually determined analytically. Next is the stability and convergence of the method. While theoretical guarantees can be given for many numerical methods regarding rates of convergence, the rates can sometimes be misleading in practice due to the sizes of constants on leading error terms, which can be problem dependent \cite{ch15fdad}. Fortunately, the rate at which the accuracy of a simulation improves as the resolution of the simulation is increased can be observed for a specific problem experimentally. However, in order to do so, the numerical method first needs to be correctly implemented.
 
-One of the trickiest aspects of implementing numerical solvers for PDEs is correctly incorporating boundary conditions into the numerical scheme \todo{Cite}. For illustration, we start by considering a simple example -- a finite difference method for Poisson's equation in 2 dimensions. Poisson's equation takes the form
+One of the trickiest aspects of implementing numerical solvers for PDEs is correctly incorporating boundary conditions into the numerical scheme \cite{pdenotesmixed}. For illustration, we start by considering a simple example -- a finite difference method for Poisson's equation in 2 dimensions. Poisson's equation takes the form
 \begin{equation}
   \nabla^2 u = f
 \end{equation}
@@ -141,7 +141,7 @@ on a rectangular domain of size $M \times N$.
 
 Suppose we discretize the domain using $m$ interior points in the $x$-direction and $n$ interior points in the $y$-direction, uniformly spaced in each direction, so that we have a mesh of size $(m+2) \times (n+2)$ consisting of the points $\{(x_i, y_j)\}$ where $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}$ with the boundaries included. The discretized solution $U$ consists of the values of the continuous solution $u$ on the grid points of the mesh. We similarly discretize the source term $f$ as an $(m+2) \times (n+2)$ matrix $F$. It remains to discretize the Laplacian operator $\nabla^2$.
 
-A common discrete approximation to the Laplacian is the 5-point discrete Laplacian operator given by \todo{Cite}
+A common discrete approximation to the Laplacian is the 5-point discrete Laplacian operator given by \cite{vooren1967ninept,leveque2007fdm}
 \begin{equation}
   \nabla_5^2 U_{i,j} = \frac{U_{i-1,j} - 2U_{i,j} + U_{i+1,j}}{\Delta x^2} + \frac{U_{i,j-1} - 2U_{i,j} + U_{i,j+1}}{\Delta y^2}
 \end{equation}
@@ -165,7 +165,7 @@ with $F_{i,j}$ defined analogously to $U_{i,j}$. We can now express the discrete
 \end{figure}
 where the entries on the main diagonal (indicated in red) take the value $-\frac{2}{\Delta x^2}-\frac{2}{\Delta y^2}$, the entries on the subdiagonal and superdiagonal (indicated in blue) take the value $\frac{1}{\Delta x^2}$, and the entries on the outer diagonals (indicated in green) take the value $\frac{1}{\Delta y^2}$.
 
-Note that the off-diagonals have missing entries corresponding to the boundary points. Traditional methods of implementing numerical PDE solvers require adjusting for the missing entries either by using ghost cells \todo{Cite} or by modifying the discretized source term $F$ \todo{Cite}. As the PDE and choice of discretization become more complicated, correctly incorporating boundary conditions becomes increasingly cumbersome and significantly hinders the ability to quickly explore the effectiveness of hand-crafted numerical schemes for solving PDEs.
+Note that the off-diagonals have missing entries corresponding to the boundary points. Traditional methods of implementing numerical PDE solvers require adjusting for the missing entries either by using ghost cells or by modifying the discretized source term $F$ \cite{leveque2007fdm}. As the PDE and choice of discretization become more complicated, correctly incorporating boundary conditions becomes increasingly cumbersome and significantly hinders the ability to quickly explore the effectiveness of hand-crafted numerical schemes for solving PDEs.
 
 
 \section{Problem Formulation}
@@ -234,7 +234,7 @@ and initial condition
 \begin{equation}
   u(x, y, 0) = u_0(x, y)
 \end{equation}
-where $0 \le t \le T$. Furthermore, we discretize time into $p+1$ equispaced points between $0$ and $T$ (inclusive) with time step $\Delta t = T/p$. The discrete solution $U$ is now a 3-dimensional array over an $(m+2) \times (n+2) \times (p+1)$ grid with the value corresponding to $u(x_i, y_j, t_k)$ denoted by $U_{i,j}^k$ for $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}, k \in \{0,\ldots,p\}$.
+where $0 \le t \le T$. Furthermore, we discretize time into $p+1$ equispaced points between $0$ and $T$ (inclusive) with time step $\Delta t = T/p$. The discrete solution $U$ is now a 3-dimensional array over an $(m+2) \times (n+2) \times (p+1)$ grid with the value corresponding to $u(x_i, y_j, t_k)$ denoted by $U_{i,j}^k$ for each $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}, k \in \{0,\ldots,p\}$.
 
 In order to convert the heat equation into matrix form, we define
 \begin{equation}
@@ -254,7 +254,7 @@ so that the discretized heat equation becomes
 \begin{equation}
   \left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2}\right)^\circ = \left(\frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ
 \end{equation}
-using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. Note that applying ${}^\circ$ is equivalent to left multiplication by the identity matrix with rows corresponding to boundary points removed. We can then express the heat equation as the convex optimization problem
+using the Crank-Nicolson method \cite{cn}, where the ${}^\circ$ operator is applied column-wise. Note that applying ${}^\circ$ is equivalent to left multiplication by the identity matrix with rows corresponding to boundary points removed. We can then express the heat equation as the convex optimization problem
 \begin{equation}
   \begin{array}{lll}
     \text{minimize} & \left\|\left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2} - \frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ\right\|_F \\
@@ -270,9 +270,9 @@ with the boundary conditions and initial condition as constraints, where $i$, $j
 
 \section{Solutions}
 
-Because the convex optimization problems described above will be solved by CVX using a conic solver, we minimize the norm of the residual rather than the squared norm \todo{Cite}. Specifying the convex optimization problem for Poisson's equation in CVX is straightforward; we construct the mesh from uniformly spaced vectors of grid points, evaluate the source term $f$ on the mesh, build the diagonal matrix $A$, and then specify the objective function and constraints almost exactly as stated in mathematical form.
+Because the convex optimization problems described above will be solved by CVX using a conic solver, we minimize the norm of the residual rather than the squared norm \cite{cvxguide}. Specifying the convex optimization problem for Poisson's equation in CVX is straightforward; we construct the mesh from uniformly spaced vectors of grid points, evaluate the source term $f$ on the mesh, build the diagonal matrix $A$, and then specify the objective function and constraints almost exactly as stated in mathematical form.
 
-Table \ref{tab:poisson-operators} shows how each of the mathematical operators in the objective function for Poisson's equation can be implemented in MATLAB\textsuperscript{\textregistered} \todo{Cite} with CVX. In Table \ref{tab:poisson-operators}, $X$ is an $(m+2) \times (n+2)$ matrix, $\vec{X}$ is the corresponding unrolled vector, and \texttt{X} is an $(m+2) \times (n+2)$ MATLAB\textsuperscript{\textregistered} array; $\vec{Y}$ is an $mn$-vector, and \texttt{Y} is the corresponding $mn \times 1$ MATLAB\textsuperscript{\textregistered} array.
+Table \ref{tab:poisson-operators} shows how each of the mathematical operators in the objective function for Poisson's equation can be implemented in MATLAB\textsuperscript{\textregistered} with CVX. In Table \ref{tab:poisson-operators}, $X$ is an $(m+2) \times (n+2)$ matrix, $\vec{X}$ is the corresponding unrolled vector, and \texttt{X} is an $(m+2) \times (n+2)$ MATLAB\textsuperscript{\textregistered} array; $\vec{Y}$ is an $mn$-vector, and \texttt{Y} is the corresponding $mn \times 1$ MATLAB\textsuperscript{\textregistered} array.
 \begin{table}[h]
   \renewcommand*{\arraystretch}{1.5}
   \begin{center}
@@ -349,7 +349,7 @@ which was the solution to Poisson's equation from before on the same spatial dom
     \label{fig:heat-solution}
   \end{center}
 \end{figure}
-As expected, the initial heat distribution diffuses away while maintaining the boundary conditions \todo{Cite}.
+As expected, the initial heat distribution diffuses away while maintaining the boundary conditions \cite{cn}.
 
 
 \section{Analysis}
@@ -387,8 +387,6 @@ Finally, having a declarative syntax to specify a numerical method for solving P
 \section*{Notes}
 
 The MATLAB\textsuperscript{\textregistered} code used to solve Poisson's equation and the heat equation, along with the code to generate the figures in this paper, is available at \url{https://github.com/navravi/eeor4650-project}.
-
-\todo[inline]{Upload code to GitHub}
 
 
 %%%%%%
