@@ -253,7 +253,7 @@ so that the discretized heat equation becomes
 \begin{equation}
   \left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2}\right)^\circ = \left(\frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ
 \end{equation}
-using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. We can then express the heat equation as the convex optimization problem
+using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. Note that applying ${}^\circ$ is equivalent to left multiplication by the identity matrix with rows corresponding to boundaries points removed. We can then express the heat equation as the convex optimization problem
 \begin{equation}
   \begin{array}{lll}
     \text{minimize} & \left\|\left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2} - \frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ\right\|_F \\
@@ -268,6 +268,47 @@ with the boundary conditions and initial condition as constraints, where $i$, $j
 
 
 \section{Solutions}
+
+Because the convex optimization problems described above will be solved by CVX using a conic solver, we minimize the norm of the residual rather than the squared norm \todo{Cite}. Specifying the convex optimization problem for Poisson's equation in CVX is straightforward; we construct the mesh from uniformly spaced vectors of grid points, evaluate the source term $f$ on the mesh, build the diagonal matrix $A$, and then type the objective function and constraints almost as exactly as stated in mathematical form.
+
+Table \ref{tab:poisson-operators} shows how each of the mathematical operators in the objective function for Poisson's equation can be achieved in MATLAB\textsuperscript{\textregistered} \todo{Cite} with CVX. In Table \ref{tab:poisson-operators}, $X$ is an $(m+2) \times (n+2)$ matrix, $\vec{X}$ is the corresponding unrolled vector, and \texttt{X} is an $(m+2) \times (n+2)$ MATLAB\textsuperscript{\textregistered} array; $\vec{Y}$ is an $mn$-vector, and \texttt{Y} is the corresponding $mn \times 1$ MATLAB\textsuperscript{\textregistered} array.
+\begin{table}[h]
+  \renewcommand*{\arraystretch}{1.5}
+  \begin{center}
+    \caption{Implementation of operators in MATLAB\textsuperscript{\textregistered} with CVX for Poisson's equation}
+    \label{tab:poisson-operators}
+    \begin{tabular}{|c|c|}
+      \hline
+      \textbf{Mathematics} & \textbf{MATLAB\textsuperscript{\textregistered}} \\ \hline
+      $\vec{X}$ & \texttt{X(:)} \\ \hline
+      $(\vec{X})^\circ$ & \texttt{reshape(X(1:end,1:end), [], 1)} \\ \hline
+      $\|\vec{Y}\|_2$ & \texttt{norm(Y)} \\ \hline
+   \end{tabular}
+  \end{center}
+\end{table}
+
+The solution to Poisson's equation computed by CVX on a $40 \times 25$ grid with source function
+\begin{equation}
+  f(x, y) = -2 \sin x \cos y
+\end{equation}
+and boundary conditions
+\begin{align}
+  u(0, y) &= u(3\pi, y) = 0 \\
+  u(x, 0) &= u(x, 2\pi) = \sin x
+\end{align}
+is indicated in Figure \ref{fig:poisson-solution}.
+\begin{figure}[b]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{poisson-solution}
+    \caption{Solution to Poisson's equation using CVX}
+    \label{fig:poisson-solution}
+  \end{center}
+\end{figure}
+The computed solution satisfies the boundary conditions and matches the analytical solution
+\begin{equation}
+  u(x, y) = \sin x \cos y
+\end{equation}
+as can be verified visually.
 
 
 \cite{dummy}
