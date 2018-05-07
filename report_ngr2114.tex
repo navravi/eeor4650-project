@@ -1,0 +1,172 @@
+%% LaTeX Template for ISIT 2018
+%%
+%% by Stefan M. Moser, October 2017
+%%
+%% derived from bare_conf.tex, V1.4a, 2014/09/17, by Michael Shell
+%% for use with IEEEtran.cls version 1.8b or later
+%%
+%% Support sites for IEEEtran.cls:
+%%
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://moser-isi.ethz.ch/manuals.html#eqlatex
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%%
+
+\documentclass[conference]{IEEEtran}
+
+
+%%%%%%
+%% Packages:
+%% Some useful packages (and compatibility issues with the IEEE format)
+%% are pointed out at the very end of this template source file (they are 
+%% taken verbatim out of bare_conf.tex by Michael Shell).
+%
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+%
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{ifthen}
+\usepackage{cite}
+\usepackage[cmex10]{amsmath} % Use the [cmex10] option to ensure complicance
+                             % with IEEE Xplore (see bare_conf.tex)
+\usepackage[color=green!40,textsize=scriptsize]{todonotes}
+
+%% Please note that the amsthm package must not be loaded with
+%% IEEEtran.cls because IEEEtran provides its own versions of
+%% theorems. Also note that IEEEXplore does not accepts submissions
+%% with hyperlinks, i.e., hyperref cannot be used.
+
+\interdisplaylinepenalty=2500 % As explained in bare_conf.tex
+
+
+%%%%%%
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+% ------------------------------------------------------------
+
+\begin{document}
+
+\title{Solving Partial Differential Equations Using Convex Optimization}
+
+%%% Single author, or several authors with same affiliation:
+\author{%
+  \IEEEauthorblockN{Nav Ravindranath}
+  \IEEEauthorblockA{Columbia University\\
+                    Applied Physics and Applied Mathematics\\
+                    New York, NY\\
+                    Email: ngr2114@columbia.edu}
+}
+
+%%% Several authors with up to three affiliations:
+% \author{%
+%   \IEEEauthorblockN{Stefan M.~Moser}
+%   \IEEEauthorblockA{ETH Zürich\\
+%                     ISI (D-ITET), ETH Zentrum\\
+%                     CH-8092 Zürich, Switzerland\\
+%                     Email: moser@isi.ee.ethz.ch}
+%   \and
+%   \IEEEauthorblockN{Albus Dumbledore and Harry Potter}
+%   \IEEEauthorblockA{Hogwarts School of Witchcraft and Wizardry\\
+%                     Hogwarts Castle\\
+%                     1714 Hogsmeade, Scotland\\
+%                     Email: \{dumbledore, potter\}@hogwarts.edu}
+% }
+
+%%% Many authors with many affiliations:
+% \author{%
+%   \IEEEauthorblockN{Albus Dumbledore\IEEEauthorrefmark{1},
+%                     Olympe Maxime\IEEEauthorrefmark{2},
+%                     Stefan M.~Moser\IEEEauthorrefmark{3}\IEEEauthorrefmark{4},
+%                     and Harry Potter\IEEEauthorrefmark{1}}
+%   \IEEEauthorblockA{\IEEEauthorrefmark{1}%
+%                     Hogwarts School of Witchcraft and Wizardry,
+%                     1714 Hogsmeade, Scotland,
+%                     \{dumbledore, potter\}@hogwarts.edu}
+%   \IEEEauthorblockA{\IEEEauthorrefmark{2}%
+%                     Beauxbatons Academy of Magic,
+%                     1290 Pyrénées, France,
+%                     maxime@beauxbatons.edu}
+%   \IEEEauthorblockA{\IEEEauthorrefmark{3}%
+%                     ETH Zürich, ISI (D-ITET), ETH Zentrum, 
+%                     CH-8092 Zürich, Switzerland,
+%                     moser@isi.ee.ethz.ch}
+%   \IEEEauthorblockA{\IEEEauthorrefmark{4}%
+%                     National Chiao Tung University (NCTU), 
+%                     Hsinchu, Taiwan,
+%                     moser@isi.ee.ethz.ch}
+% }
+
+\maketitle
+
+
+%%%%%%
+%% Abstract:
+%% If your paper is eligible for the student paper award, please add
+%% the comment "THIS PAPER IS ELIGIBLE FOR THE STUDENT PAPER
+%% AWARD." as a first line in the abstract.
+%% For the final version of the accepted paper, please do not forget
+%% to remove this comment!
+%%
+\begin{abstract}
+We present a method for solving partial differential equations (PDEs) using standard convex optimization tools, such as CVX \todo{Cite CVX}. The proposed method provides a declarative syntax for specifying the PDE, thereby greatly simplifying the handling of boundary conditions. As a result, researchers implementing numerical methods not supported by existing solvers can quickly explore the effectiveness of a large number of numerical schemes on their problem before investing the time to implement the schemes using more traditional approaches, which may be required for computational efficiency reasons. In addition to demonstrating how PDEs can be expressed as convex optimization problems, we explore the scalability limits of convex solvers in the context of PDEs.
+\end{abstract}
+
+
+\section{Introduction}
+
+\subsection{Background}
+
+When modeling complicated physical phenomena such as atmospheric processes or tropical storms, the problem is often defined as a system of PDEs which need to be solved numerically. Unfortunately, standard off-the-shelf solvers for PDEs are usually inadequate for solving such problems. It is common for researchers to develop their own numerical PDE solvers.
+
+\subsection{Literature Review}
+
+
+\section{Problem Formulation}
+
+
+\section{Solutions}
+
+
+\section{Simulations}
+
+
+\section{Conclusion}
+
+\cite{dummy}
+
+
+%%%%%%
+%% To balance the columns at the last page of the paper use this
+%% command:
+%%
+%\enlargethispage{-1.2cm}
+%%
+%% If the balancing should occur in the middle of the references, use
+%% the following trigger:
+%%
+%\IEEEtriggeratref{3}
+%%
+%% which triggers a \newpage (i.e., new column) just before the given
+%% reference number. Note that you need to adapt this if you modify
+%% the paper.  The "triggered" command can be changed if desired:
+%%
+%\IEEEtriggercmd{\enlargethispage{-20cm}}
+%%
+%%%%%%
+
+%%%%%%
+%% References:
+%% We recommend the usage of BibTeX:
+%%
+\bibliographystyle{IEEEtran}
+\bibliography{bibliofile}
+%%
+%% BibTeX documentation can be obtained at:
+%% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+%%%%%%
+
+
+\end{document}
