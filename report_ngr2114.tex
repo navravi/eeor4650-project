@@ -118,6 +118,8 @@
 \end{abstract}
 
 
+\section{Introduction}
+
 When modeling complicated physical phenomena such as atmospheric processes or tropical storms, the problem is often defined as a system of PDEs which need to be solved numerically. Unfortunately, standard off-the-shelf solvers for PDEs are usually inadequate for solving such problems. It is common for researchers to develop their own numerical PDE solvers which exploit special structure unique to their problem \todo{Cite}.
 
 When developing a new PDE solver, there are several important aspects which need to be considered. First is the consistency of the numerical method, which is usually determined analytically. Next is the stability and convergence of the method. While theoretical guarantees can be given for many numerical methods regarding rates of convergence, the rates can sometimes be misleading in practice due to the sizes of constants on leading error terms, which can be problem dependent \todo{Cite}. Fortunately, the rate at which the accuracy of a simulation improves as the resolution of the simulation is increased can be observed for a specific problem experimentally. However, in order to do so, the numerical method first needs to be correctly implemented.
@@ -155,27 +157,22 @@ with $F_{i,j}$ defined analogously to $U_{i,j}$. We can now express the discrete
 \begin{figure}[t]
   \begin{center}
     \includegraphics[width=0.5\textwidth]{lap-with-bd}
-    \caption{Second-order centered discrete Laplacian with boundary conditions}
+    \caption{Second-order centered discrete Laplacian matrix}
     \label{fig:lap-with-bd}
   \end{center}
 \end{figure}
 where the entries on the main diagonal (indicated in red) take the value $-\frac{2}{\Delta x^2}-\frac{2}{\Delta y^2}$, the entries on the subdiagonal and superdiagonal (indicated in blue) take the value $\frac{1}{\Delta x^2}$, and the entries on the outer diagonals (indicated in green) take the value $\frac{1}{\Delta y^2}$.
+
+Note that the off-diagonals have missing entries corresponding to the boundary points. Traditional methods of implementing numerical PDE solvers require adjusting for the missing entries either by using ghost cells \todo{Cite} or by modifying the discretized source term $F$ \todo{Cite}. As the PDE and choice of discretization become more complicated, correctly incorporating boundary conditions becomes increasingly cumbersome and significantly hinders the ability to quickly explore the effectiveness of hand-crafted numerical schemes for solving PDEs.
+
+
+\section{Problem Formulation}
 
 \cite{dummy}
 
 Smaller chance of bugs with declarative approach - provides reference implementation for comparison
 
 Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
-
-
-\section{Introduction}
-
-\subsection{Background}
-
-\subsection{Literature Review}
-
-
-\section{Problem Formulation}
 
 
 \section{Solutions}
