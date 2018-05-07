@@ -328,14 +328,27 @@ Solving the heat equation using CVX follows a similar procedure, except that we 
   \end{center}
 \end{table}
 
-
-\cite{dummy}
-
-Smaller chance of bugs with declarative approach - provides reference implementation for comparison
-
-Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
-
-Note how problem is still convex
+Figure \ref{fig:heat-solution} shows snapshots of the solution computed by CVX on a $40 \times 25 \times 17$ grid with $T = 1.6$, boundary conditions
+\begin{align}
+  u(0, y, t) &= u(3\pi, y, t) = 0 \\
+  u(x, 0, t) &= u(x, 2\pi, t) = \sin x
+\end{align}
+and initial condition
+\begin{align}
+  u_0(x, y) = \sin x \cos y
+\end{align}
+which was the solution to Poisson's equation from before on the same spatial domain.
+\begin{figure}[b]
+  \begin{center}
+    \includegraphics[width=0.24\textwidth,trim={1cm 1cm 0 0},clip]{heat-solution-1}
+    \includegraphics[width=0.24\textwidth,trim={1cm 1cm 0 0},clip]{heat-solution-3}
+    \includegraphics[width=0.24\textwidth,trim={1cm 1cm 0 0},clip]{heat-solution-6}
+    \includegraphics[width=0.24\textwidth,trim={1cm 1cm 0 0},clip]{heat-solution-16}
+    \caption{Solution to heat equation using CVX}
+    \label{fig:heat-solution}
+  \end{center}
+\end{figure}
+As expected, the initial heat distribution diffuses away while maintaining the boundary conditions \todo{Cite}.
 
 
 \section{Simulations}
@@ -347,6 +360,12 @@ Note how problem is still convex
 \section*{Notes}
 
 \todo[inline]{Upload code to GitHub and link here}
+
+Smaller chance of bugs with declarative approach - provides reference implementation for comparison
+
+Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
+
+Note how problem is still convex \cite{dummy}
 
 
 %%%%%%
