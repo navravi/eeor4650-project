@@ -190,6 +190,31 @@ that extracts the entries on the interior of the mesh. The Dirichlet boundary co
 \end{align}
 for $i \in \{0,\ldots,m+1\}$ and $j \in \{0,\ldots,n+1\}$.
 
+Observe that the rows of $A_*$ with missing entries do not affect the result of $(A_* \vec{U})^\circ$. Therefore, we can simplify the structure of the discrete Laplacian matrix by filling in the missing entries as shown in Figure \ref{fig:modified-discrete-laplacian}.
+\begin{figure}[t]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{modified-discrete-laplacian}
+    \caption{Modified second-order centered discrete Laplacian matrix}
+    \label{fig:modified-discrete-laplacian}
+  \end{center}
+\end{figure}
+In other words, if we let $A$ denote the matrix shown in Figure \ref{fig:modified-discrete-laplacian}, then we have
+\begin{equation}
+  (A_* \vec{U})^\circ = (A \vec{U})^\circ
+\end{equation}
+so that numerically solving for $U$ is equivalent to solving the convex optimization problem
+\begin{equation}
+  \begin{array}{lll}
+    \text{minimize} & \|(A \vec{U} - \vec{F})^\circ\|_2 \\
+    \text{subject to} & U_{0,j} = g_0(y_j), & j = 0,\ldots,n+1 \\
+    & U_{m+1,j} = g_1(y_j), & j = 0,\ldots,n+1 \\
+    & U_{i,0} = h_0(x_i), & i = 0,\ldots,m+1 \\
+    & U_{i,n+1} = h_1(x_i), & i = 0,\ldots,m+1
+  \end{array}
+\end{equation}
+where we minimize the norm of the difference between the left-hand and right-hand sides of the PDE, and impose the boundary conditions as constraints. The convex optimization problem is equivalent to a linearly constrained least squares problem upon squaring the objective function, since ${}^\circ$ is a linear operator.
+
+
 \cite{dummy}
 
 Smaller chance of bugs with declarative approach - provides reference implementation for comparison
