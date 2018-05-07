@@ -33,6 +33,7 @@
                              % with IEEE Xplore (see bare_conf.tex)
 
 \usepackage[color=green!40,textsize=scriptsize]{todonotes}
+\usepackage{amssymb}
 \usepackage{mathtools}
 \mathtoolsset{showonlyrefs}
 
@@ -153,10 +154,10 @@ As a step toward expressing the discretized equation as a convex optimization pr
     F_{0,0} \\ \vdots \\ F_{m+1,0} \\ \vdots \\ F_{0,n+1} \\ \vdots \\ F_{m+1,n+1}
   \end{bmatrix}
 \end{equation}
-with $F_{i,j}$ defined analogously to $U_{i,j}$. We can now express the discrete Laplacian $\nabla_5^2$ as a matrix of the form shown in Figure \ref{fig:lap-with-bd}
+with $F_{i,j}$ defined analogously to $U_{i,j}$. We can now express the discrete Laplacian $\nabla_5^2$ as a matrix of the form shown in Figure \ref{fig:discrete-laplacian}
 \begin{figure}[t]
   \begin{center}
-    \includegraphics[width=0.5\textwidth]{discrete-laplacian}
+    \includegraphics[width=0.48\textwidth]{discrete-laplacian}
     \caption{Second-order centered discrete Laplacian matrix}
     \label{fig:discrete-laplacian}
   \end{center}
@@ -168,11 +169,26 @@ Note that the off-diagonals have missing entries corresponding to the boundary p
 
 \section{Problem Formulation}
 
-The discretized version of Poisson's equation can now be expressed as
+The discretized version of Poisson's equation on the interior of the domain can now be expressed as
 \begin{equation}
-  A_* \vec{U} = \vec{F}
+  (A_* \vec{U})^\circ = (\vec{F})^\circ
 \end{equation}
-where $A_*$ is the discrete Laplacian matrix shown in Figure \ref{fig:discrete-laplacian}.
+where $A_*$ is the discrete Laplacian matrix shown in Figure \ref{fig:discrete-laplacian}, and ${}^\circ : \mathbb{R}^{(m+2)(n+2)} \to \mathbb{R}^{mn}$ is the operator defined by
+\begin{equation}
+  \begin{bmatrix}
+    V_{0,0} \\ \vdots \\ V_{m+1,0} \\ \vdots \\ V_{0,n+1} \\ \vdots \\ V_{m+1,n+1}
+  \end{bmatrix}^\circ = \begin{bmatrix}
+    V_{1,1} \\ \vdots \\ V_{m,1} \\ \vdots \\ V_{1,n} \\ \vdots \\ V_{m,n}
+  \end{bmatrix}
+\end{equation}
+that extracts the entries on the interior of the mesh. The Dirichlet boundary conditions can be easily imposed on the discretized solution as
+\begin{align}
+  U_{0,j} &= g_0(y_j) \\
+  U_{m+1,j} &= g_1(y_j) \\
+  U_{i,0} &= h_0(x_i) \\
+  U_{i,n+1} &= h_1(x_i)
+\end{align}
+for $i \in \{0,\ldots,m+1\}$ and $j \in \{0,\ldots,n+1\}$.
 
 \cite{dummy}
 
