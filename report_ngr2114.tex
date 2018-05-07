@@ -169,6 +169,8 @@ Note that the off-diagonals have missing entries corresponding to the boundary p
 
 \section{Problem Formulation}
 
+\subsection{Poisson's Equation}
+
 The discretized version of Poisson's equation on the interior of the domain can now be expressed as
 \begin{equation}
   (A_* \vec{U})^\circ = (\vec{F})^\circ
@@ -214,6 +216,59 @@ so that numerically solving for $U$ is equivalent to solving the convex optimiza
 \end{equation}
 where we minimize the norm of the difference between the left-hand and right-hand sides of the PDE, and impose the boundary conditions as constraints. The convex optimization problem is equivalent to a linearly constrained least squares problem upon squaring the objective function, since ${}^\circ$ is a linear operator.
 
+\subsection{Heat Equation}
+
+We now turn to a slightly more complicated PDE---the 2-dimensional heat equation---which adds an element of time to Poisson's equation. We consider the PDE
+\begin{equation}
+  \nabla^2 u = u_t
+\end{equation}
+with boundary conditions
+\begin{align}
+  u(0, y, t) &= g_0(y, t) \\
+  u(M, y, t) &= g_1(y, t) \\
+  u(x, 0, t) &= h_0(x, t) \\
+  u(x, N, t) &= h_1(x, t)
+\end{align}
+and initial condition
+\begin{equation}
+  u(x, y, 0) = u_0(x, y)
+\end{equation}
+where $0 \le t \le T$. Furthermore, we discretize time into $p+1$ equispaced points between $0$ and $T$ (inclusive) with time step $\Delta t = T/p$. The discretized solution $U$ is now a 3-dimensional array over a $(m+2) \times (n+2) \times (p+1)$ grid with the value corresponding to $u(x_i, y_j, t_k)$ denoted by $U_{i,j}^k$ for $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}, k \in \{0,\ldots,p\}$.
+
+In order to convert the heat equation into matrix form, we define
+\begin{equation}
+  \vec{U}^k = \begin{bmatrix}
+    U_{0,0}^k \\ \vdots \\ U_{m+1,0}^k \\ \vdots \\ U_{0,n+1}^k \\ \vdots \\ U_{m+1,n+1}^k
+  \end{bmatrix}
+\end{equation}
+and
+\begin{equation}
+  \widetilde{U}_+ = \begin{bmatrix}
+    \vec{U}^1 & \cdots & \vec{U}^p
+  \end{bmatrix}, \quad \widetilde{U}_- = \begin{bmatrix}
+    \vec{U}^0 & \cdots & \vec{U}^{p-1}
+  \end{bmatrix}
+\end{equation}
+so that the discretized heat equation becomes
+\begin{equation}
+  \left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2}\right)^\circ = \left(\frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ
+\end{equation}
+using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. We can then express the heat equation as the convex optimization problem
+\begin{equation}
+  \begin{array}{lll}
+    \text{minimize} & \left\|\left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2} - \frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ\right\|_F \\
+    \text{subject to} & U_{0,j}^k = g_0(y_j, t_k) \\
+    & U_{m+1,j}^k = g_1(y_j, t_k) \\
+    & U_{i,0}^k = h_0(x_i, t_k) \\
+    & U_{i,n+1}^k = h_1(x_i, t_k) \\
+    & U_{i,j}^0 = u_0(x_i, y_j)
+  \end{array}
+\end{equation}
+with the boundary conditions and initial condition as constraints, where $i$, $j$, and $k$ range over their appropriate values, and $\|\cdot\|_F$ denotes the Frobenius norm. Since the Frobenius norm can be expressed as a Euclidean vector norm, this problem is also equivalent to a linearly constrained least squares problem.
+
+
+\section{Solutions}
+
 
 \cite{dummy}
 
@@ -222,9 +277,6 @@ Smaller chance of bugs with declarative approach - provides reference implementa
 Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
 
 Note how problem is still convex
-
-
-\section{Solutions}
 
 
 \section{Simulations}
