@@ -171,7 +171,7 @@ Note that the off-diagonals have missing entries corresponding to the boundary p
 
 \subsection{Poisson's Equation}
 
-The discretized version of Poisson's equation on the interior of the domain can now be expressed as
+The discrete version of Poisson's equation on the interior of the domain can now be expressed as
 \begin{equation}
   (A_* \vec{U})^\circ = (\vec{F})^\circ
 \end{equation}
@@ -233,7 +233,7 @@ and initial condition
 \begin{equation}
   u(x, y, 0) = u_0(x, y)
 \end{equation}
-where $0 \le t \le T$. Furthermore, we discretize time into $p+1$ equispaced points between $0$ and $T$ (inclusive) with time step $\Delta t = T/p$. The discretized solution $U$ is now a 3-dimensional array over a $(m+2) \times (n+2) \times (p+1)$ grid with the value corresponding to $u(x_i, y_j, t_k)$ denoted by $U_{i,j}^k$ for $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}, k \in \{0,\ldots,p\}$.
+where $0 \le t \le T$. Furthermore, we discretize time into $p+1$ equispaced points between $0$ and $T$ (inclusive) with time step $\Delta t = T/p$. The discrete solution $U$ is now a 3-dimensional array over an $(m+2) \times (n+2) \times (p+1)$ grid with the value corresponding to $u(x_i, y_j, t_k)$ denoted by $U_{i,j}^k$ for $i \in \{0,\ldots,m+1\}, j \in \{0,\ldots,n+1\}, k \in \{0,\ldots,p\}$.
 
 In order to convert the heat equation into matrix form, we define
 \begin{equation}
@@ -253,7 +253,7 @@ so that the discretized heat equation becomes
 \begin{equation}
   \left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2}\right)^\circ = \left(\frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ
 \end{equation}
-using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. Note that applying ${}^\circ$ is equivalent to left multiplication by the identity matrix with rows corresponding to boundaries points removed. We can then express the heat equation as the convex optimization problem
+using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is applied column-wise. Note that applying ${}^\circ$ is equivalent to left multiplication by the identity matrix with rows corresponding to boundary points removed. We can then express the heat equation as the convex optimization problem
 \begin{equation}
   \begin{array}{lll}
     \text{minimize} & \left\|\left(\frac{A(\widetilde{U}_+ + \widetilde{U}_-)}{2} - \frac{\widetilde{U}_+ - \widetilde{U}_-}{\Delta t}\right)^\circ\right\|_F \\
@@ -264,14 +264,14 @@ using the Crank-Nicolson method \todo{Cite}, where the ${}^\circ$ operator is ap
     & U_{i,j}^0 = u_0(x_i, y_j)
   \end{array}
 \end{equation}
-with the boundary conditions and initial condition as constraints, where $i$, $j$, and $k$ range over their appropriate values, and $\|\cdot\|_F$ denotes the Frobenius norm. Since the Frobenius norm can be expressed as a Euclidean vector norm, this problem is also equivalent to a linearly constrained least squares problem.
+with the boundary conditions and initial condition as constraints, where $i$, $j$, and $k$ range over their possible values, and $\|\cdot\|_F$ denotes the Frobenius norm. Since the Frobenius norm can be expressed as a Euclidean vector norm, this problem is also equivalent to a linearly constrained least squares problem.
 
 
 \section{Solutions}
 
-Because the convex optimization problems described above will be solved by CVX using a conic solver, we minimize the norm of the residual rather than the squared norm \todo{Cite}. Specifying the convex optimization problem for Poisson's equation in CVX is straightforward; we construct the mesh from uniformly spaced vectors of grid points, evaluate the source term $f$ on the mesh, build the diagonal matrix $A$, and then type the objective function and constraints almost as exactly as stated in mathematical form.
+Because the convex optimization problems described above will be solved by CVX using a conic solver, we minimize the norm of the residual rather than the squared norm \todo{Cite}. Specifying the convex optimization problem for Poisson's equation in CVX is straightforward; we construct the mesh from uniformly spaced vectors of grid points, evaluate the source term $f$ on the mesh, build the diagonal matrix $A$, and then specify the objective function and constraints almost exactly as stated in mathematical form.
 
-Table \ref{tab:poisson-operators} shows how each of the mathematical operators in the objective function for Poisson's equation can be achieved in MATLAB\textsuperscript{\textregistered} \todo{Cite} with CVX. In Table \ref{tab:poisson-operators}, $X$ is an $(m+2) \times (n+2)$ matrix, $\vec{X}$ is the corresponding unrolled vector, and \texttt{X} is an $(m+2) \times (n+2)$ MATLAB\textsuperscript{\textregistered} array; $\vec{Y}$ is an $mn$-vector, and \texttt{Y} is the corresponding $mn \times 1$ MATLAB\textsuperscript{\textregistered} array.
+Table \ref{tab:poisson-operators} shows how each of the mathematical operators in the objective function for Poisson's equation can be implemented in MATLAB\textsuperscript{\textregistered} \todo{Cite} with CVX. In Table \ref{tab:poisson-operators}, $X$ is an $(m+2) \times (n+2)$ matrix, $\vec{X}$ is the corresponding unrolled vector, and \texttt{X} is an $(m+2) \times (n+2)$ MATLAB\textsuperscript{\textregistered} array; $\vec{Y}$ is an $mn$-vector, and \texttt{Y} is the corresponding $mn \times 1$ MATLAB\textsuperscript{\textregistered} array.
 \begin{table}[h]
   \renewcommand*{\arraystretch}{1.5}
   \begin{center}
@@ -310,7 +310,7 @@ The computed solution satisfies the boundary conditions and matches the analytic
 \end{equation}
 as can be verified visually.
 
-Solving the heat equation using CVX follows a similar procedure, except that we must work with 3-dimensional arrays rather than 2-dimensional ones, and additionally specify the initial condition as a constraint. Table \ref{tab:heat-operators} shows how the necessary operations can be performed in MATLAB\textsuperscript{\textregistered}. In the table below, \texttt{U} is an $(m+2) \times (n+2) \times (p+1)$ MATLAB\textsuperscript{\textregistered} array corresponding to the discretized solution $U$, and $V$ and $W$ are $(m+2)(n+2) \times p$ and $mn \times p$ matrices, respectively, with \texttt{V} and \texttt{W} as their MATLAB\textsuperscript{\textregistered} counterparts.
+Solving the heat equation using CVX follows a similar procedure, except that we must work with 3-dimensional arrays rather than 2-dimensional ones, and additionally specify the initial condition as a constraint. Table \ref{tab:heat-operators} shows how the necessary operations can be performed in MATLAB\textsuperscript{\textregistered}. In the table below, \texttt{U} is an $(m+2) \times (n+2) \times (p+1)$ MATLAB\textsuperscript{\textregistered} array corresponding to the discrete solution $U$, and $V$ and $W$ are $(m+2)(n+2) \times p$ and $mn \times p$ matrices, respectively, with \texttt{V} and \texttt{W} as their MATLAB\textsuperscript{\textregistered} counterparts.
 \begin{table}[h]
   \renewcommand*{\arraystretch}{1.5}
   \begin{center}
