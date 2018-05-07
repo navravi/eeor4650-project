@@ -156,9 +156,9 @@ As a step toward expressing the discretized equation as a convex optimization pr
 with $F_{i,j}$ defined analogously to $U_{i,j}$. We can now express the discrete Laplacian $\nabla_5^2$ as a matrix of the form shown in Figure \ref{fig:lap-with-bd}
 \begin{figure}[t]
   \begin{center}
-    \includegraphics[width=0.5\textwidth]{lap-with-bd}
+    \includegraphics[width=0.5\textwidth]{discrete-laplacian}
     \caption{Second-order centered discrete Laplacian matrix}
-    \label{fig:lap-with-bd}
+    \label{fig:discrete-laplacian}
   \end{center}
 \end{figure}
 where the entries on the main diagonal (indicated in red) take the value $-\frac{2}{\Delta x^2}-\frac{2}{\Delta y^2}$, the entries on the subdiagonal and superdiagonal (indicated in blue) take the value $\frac{1}{\Delta x^2}$, and the entries on the outer diagonals (indicated in green) take the value $\frac{1}{\Delta y^2}$.
@@ -168,11 +168,19 @@ Note that the off-diagonals have missing entries corresponding to the boundary p
 
 \section{Problem Formulation}
 
+The discretized version of Poisson's equation can now be expressed as
+\begin{equation}
+  A_* \vec{U} = \vec{F}
+\end{equation}
+where $A_*$ is the discrete Laplacian matrix shown in Figure \ref{fig:discrete-laplacian}.
+
 \cite{dummy}
 
 Smaller chance of bugs with declarative approach - provides reference implementation for comparison
 
 Finite difference approximations (Crank-Nicolson, etc.), Laplacian boundary conditions, Poisson's equation, heat equation, analytical solutions
+
+Note how problem is still convex
 
 
 \section{Solutions}
